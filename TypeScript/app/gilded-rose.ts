@@ -19,7 +19,6 @@ export class GildedRose {
 
   updateQuality():Array<Item> {
     this.items.forEach((item) => {
-      console.log('hi');
 
       const lowerName = item.name.toLowerCase();
 
@@ -29,8 +28,6 @@ export class GildedRose {
       // is the item past its sellBy date?
       const after = item.sellIn <= 0;
 
-      // decrement sellIn
-      item.sellIn--;
 
       // "Aged Brie" actually increases in Quality the older it gets and double after sellBy
       if (lowerName.includes("brie"))
@@ -46,16 +43,19 @@ export class GildedRose {
       }
 
       // "Conjured" items degrade in Quality twice as fast as normal items
-      else if (lowerName.includes("conjured")){
-        
+      else if (lowerName.includes("conjured"))
         item.quality = safeDecrement(item, after ? 4 : 2);
-      }
+      
 
       // all other items degrade in by 1 before sellBy and 2 after
       else item.quality = safeDecrement(item, after ? 2 : 1);
 
-      
+      // decrement sellIn
+      item.sellIn--;
+
     });
+
+    
 
     return this.items;
   }

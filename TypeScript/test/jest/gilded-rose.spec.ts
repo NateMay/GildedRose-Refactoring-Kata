@@ -1,4 +1,4 @@
-import { Item, GildedRose, } from "@/gilded-rose";
+import { Item, GildedRose } from "@/gilded-rose";
 
 /**
  * @description creates a new GildedRose instance with the given item and updates it once
@@ -66,7 +66,7 @@ describe("Gilded Rose", () => {
   });
 
   describe("- Backstage Passes", () => {
-    const pass = "Backstage passes to a TAFKAL80ETC concert"
+    const pass = "Backstage passes to a TAFKAL80ETC concert";
 
     it("should increment Backstage Passes by 1 when > 10 days out", () => {
       const item = new Item(pass, 20, 10);
@@ -93,10 +93,9 @@ describe("Gilded Rose", () => {
       const updated = updateItem(item);
       expect(updated).toEqual(new Item(pass, 1, 50));
     });
-
   });
   describe("- Conjured Items", () => {
-    const conjured = "Conjured Mana Cake"
+    const conjured = "Conjured Mana Cake";
 
     it("should decrement Conjured items by 2 prior to the Sellby", () => {
       const item = new Item(conjured, 10, 15);
@@ -115,6 +114,5 @@ describe("Gilded Rose", () => {
       const updated = updateItem(item);
       expect(updated).toEqual(new Item(conjured, 9, 0));
     });
-
   });
 });
