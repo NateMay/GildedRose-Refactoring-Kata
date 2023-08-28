@@ -1,16 +1,12 @@
-import { Item, GildedRose } from "@/gilded-rose";
-
-// We have recently signed a supplier of conjured items. This requires an update to our system:
-// - "Conjured" items degrade in Quality twice as fast as normal items
-
+import { Item, GildedRose, } from "@/gilded-rose";
 
 /**
  * @description creates a new GildedRose instance with the given item and updates it once
  */
 const updateItem = (item: Item): Item => {
   const gildedRose = new GildedRose([item]);
-  gildedRose.items = gildedRose.updateQuality();
-  return gildedRose.items[0];
+  const items = gildedRose.updateQuality();
+  return items[0];
 };
 
 describe("Gilded Rose", () => {
@@ -22,9 +18,9 @@ describe("Gilded Rose", () => {
       expect(updated).toEqual(new Item(standard, 9, 19));
     });
     it("should decrement standard items by 2 after the Sellby", () => {
-      const item = new Item(standard, -2, 20);
+      const item = new Item(standard, 0, 10);
       const updated = updateItem(item);
-      expect(updated).toEqual(new Item(standard, -3, 18));
+      expect(updated).toEqual(new Item(standard, -1, 8));
     });
     it("should never go negative", () => {
       const item = new Item(standard, 10, 0);
@@ -99,5 +95,26 @@ describe("Gilded Rose", () => {
     });
 
   });
-  describe("- Conjured Items", () => {});
+  describe("- Conjured Items", () => {
+    const conjured = "Conjured Mana Cake"
+
+    it("should decrement Conjured items by 2 prior to the Sellby", () => {
+      const item = new Item(conjured, 10, 15);
+      const updated = updateItem(item);
+      expect(updated).toEqual(new Item(conjured, 9, 13));
+    });
+
+    it("should decrement Conjured items by 4 after the Sellby", () => {
+      const item = new Item(conjured, -2, 8);
+      const updated = updateItem(item);
+      expect(updated).toEqual(new Item(conjured, -3, 4));
+    });
+
+    it("should never go negative", () => {
+      const item = new Item(conjured, 10, 0);
+      const updated = updateItem(item);
+      expect(updated).toEqual(new Item(conjured, 9, 0));
+    });
+
+  });
 });
